@@ -1,7 +1,4 @@
 # aula05
-Select: WHERE: comparação, BETWEEN, AND, OR, IN, LIKE, REGEXP, IS NULL
-Funções de linha: NUMBER, CHAR/STRING, DATE, conversão, CASE (DECODE)
-
 Nesta aula continuamos a trabalhar a linguagem SQL. Vemos como o operador seleção permite selecionar e filtrar tuplos aplicando condições diferentes condições desde comparações simples e progressivamente mais complexas. Olhamos para vários exemplo de funções de linha, funções que podemos utilizar diretamente na query e que são aplicadas sobre os tuplos de acordo com os resultados pretendidos.
 Bom trabalho!
 
