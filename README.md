@@ -2,56 +2,68 @@
 Nesta aula continuamos a trabalhar a linguagem SQL. Vemos como o operador seleção permite selecionar e filtrar tuplos aplicando condições diferentes condições desde comparações simples e progressivamente mais complexas. Olhamos para vários exemplo de funções de linha, funções que podemos utilizar diretamente na query e que são aplicadas sobre os tuplos de acordo com os resultados pretendidos.
 Bom trabalho!
 
+Select: WHERE: comparação, BETWEEN, AND, OR, IN, LIKE, REGEXP, IS NULL
+Funções de linha: NUMBER, CHAR/STRING, DATE, conversão, CASE (DECODE)
+
 [0. Requisitos](#0-requisitos)
 
-[1. Expressões Aritméticas](#1-expressões-aritméticas)
+[1. Operadores de Comparação](#1-operadores-de-comparação)
 
-[2. Valores Nulos](#2-valores-nulos)
+[2. AND, OR e NOT](#2-and-or-e-not)
 
-[3. Literais](#3-literais)
+[3. IN, LIKE e REGEXP](#3-in-like-e-regexp)
 
-[4. DISTINCT](#4-distinct)
+[4. Funções Numéricas](#4-funções-numéricas)
 
-[5. ORDER BY](#5-order-by)
+[5. Funções de String](#5-funções-de-string)
 
-[6. Trabalho de Casa](#6-trabalho-de-casa)
+[6. Funções de Data](#6-funções-de-data)
+
+[7. Trabalho de Casa](#7-trabalho-de-casa)
 
 [Bibliografia e Referências](#bibliografia-e-referências)
 
 [Outros](#outros)
 
 ## 0. Requisitos
-Requisitos: Para esta aula, precisa de ter o ambiente de trabalho configurado ([Docker](https://www.docker.com/products/docker-desktop/) com [base de dados HR](https://github.com/ULHT-BD/aula03/blob/main/docker_db_aula03.zip) e [DBeaver](https://dbeaver.io/download/)). Caso ainda não o tenha feito, veja como fazer seguindo o passo 1 da [aula anterior](https://github.com/ULHT-BD/aula03/edit/main/README.md#1-prepare-o-seu-ambiente-de-trabalho).
+Requisitos: Para esta aula, precisa de ter o ambiente de trabalho configurado ([Docker](https://www.docker.com/products/docker-desktop/) com [base de dados HR](https://github.com/ULHT-BD/aula03/blob/main/docker_db_aula03.zip) e [DBeaver](https://dbeaver.io/download/)). Caso ainda não o tenha feito, veja como fazer seguindo o passo 1 da [aula anterior 3](https://github.com/ULHT-BD/aula03/edit/main/README.md#1-prepare-o-seu-ambiente-de-trabalho).
 
 Caso já tenha o docker pode iniciá-lo usando o comando ```docker start mysgbd``` no terminal, ou através do interface gráfico do docker-desktop:
 <img width="1305" alt="image" src="https://user-images.githubusercontent.com/32137262/194916340-13af4c85-c282-4d98-a571-9c4f7b468bbb.png">
 
 Deve também ter o cliente DBeaver.
 
-## 1. Expressões Aritméticas
-O operador SELECT permite efetuar operações aritméticas entre escalares e/ou atributos. A sintaxe é:
-``` sql
-SELECT expressão operador expressão, ...
-FROM relacao;
-```
-onde uma expressão pode ser um atributo, mas também uma variável ou uma constante, e o operador pode ser ```+``` (adição), ```-``` (subtração), ```*``` (multiplicação), ```/``` (divisão) ou ```%``` (resto da divisão inteira). Exemplo:
-* Que idade terão os estudantes após os 3 anos de curso
-``` sql
-SELECT nome, idade, idade + 3 AS idade_finalista
-FROM estudante;
-```
-NOTA: ```idade + 3 AS idade_finalista``` permite renomear o nome da coluna ```idade + 3``` em ```idade_finalista```. Podemos ainda, para simplificar, omitir a palavra ```AS``` e escrever ```idade + 3 idade_finalista```
+## 1. Operadores de Comparação
+Como vimos nas aulas anteriores, em SQL podemos usar a cláusula WHERE para especificar condições que condicionam o conjunto de tuplos retornados como resultado de pesquisa ou sobre o qual é aplicada alguma operação de atualização ou remoção.
+
+Podemos usar vários operadores:
+|Operador|Descrição|Exemplo|
+|--------|---------|-------|
+|=|Igual|Quais os alunos que têm 20 anos: ```SELECT * FROM alunos WHERE idade = 20;```|
+|>|Maior|Quais os alunos que têm mais de 20 anos: ```SELECT * FROM alunos WHERE idade > 20;```|
+|<|Menor|Quais os alunos que têm menos de 20 anos: ```SELECT * FROM alunos WHERE idade < 20;```|
+|>=|Maior ou igual|Quais os alunos que têm 20 ou mais anos: ```SELECT * FROM alunos WHERE idade >= 20;```|
+|<=|Menor ou igual|Quais os alunos que têm até 20 anos (inclusivé): ```SELECT * FROM alunos WHERE idade <= 20;```|
+|<>|Diferente|Quais os alunos que não têm 20 anos: ```SELECT * FROM alunos WHERE idade <> 20;```|
 
 ### Exercícios
 Para cada uma das alíneas seguintes, escreva a query que permite obter:
-1. O resultado da operação ```2 + 3 * 25```
+1. A lista de empregados cujo primeiro nome é John.
 
-2. Para cada posição (job), o nome da posição, salário mínimo, máximo e o range salarial, diferença entre o salário máximo e o salário mínimo
+2. A lista de empregados cujo salário é superior a 5300.
 
-3. Para cada empregado, o seu primeiro nome, o valor do seu salário atual e do salário após aumento de 5% e salário com aumento de 10%
+3. Quais os departamentos cujo id é inferior ou igual a 200.
+ 
+4. Que outras regiões existem para além de Europe.
 
+ 
+NOTA: 
+Podemos também usar operadores de comparação para obter o resultado de comparações diretamente das queries, por exemplo, para cada aluno indique se o aluno tem idade superior a 20 (True=1 ou False=0)?
+``` sql
+SELECT nome, idade, idade > 20 FROM alunos;
+```
 
-## 2. Valores Nulos
+## 2. AND, OR e NOT
 Em SQL, o valor ```NULL``` é utilizado para representar um campo vazio, sem qualquer valor. Numa dada relação, se um atributo for opcional e se adicionamos um tuplo sem especificar um valor é atribuido o valor ```NULL```. ```NULL``` é diferente do valor ```0``` ou de uma string vazia ```''```
 
 Em SQL existem funções próprias para testar e manipular o valor ```NULL```
@@ -82,7 +94,8 @@ Para cada uma das alíneas seguintes, escreva a query que permite obter:
 
 4. Qual o primeiro valor não ```NULL``` da lista (NULL, 'Lisboa', 'Porto', NULL, 'Braga')
 
-## 3. Literais
+## 3. IN, LIKE e REGEXP
+|```BETWEEN```|Entre dois valores|Quais os alunos que têm entre 20 e 25 anos (inclusivé): ```SELECT * FROM alunos WHERE idade BETWEEN 20 AND 25;```|
 Em SQL existem vários tipos de literais: string, numérico (exato e aproximado), data e hora, hexadecimal, binário ou boleano
 | Literal | Exemplo | Descrição |
 | ------- | ------- | --------- |
@@ -102,7 +115,7 @@ Para cada uma das alíneas seguintes, escreva a query que permite obter:
 3. O hexadecimal de 'bd2022'
 4. O valor 0100 em binário
 
-## 4. DISTINCT
+## 4. Funções Numéricas
 O operador DISTINCT permite obter apenas valores distintos/diferentes, i.e. permite remover duplicados.
 NOTA: relembre que SQL duplicados podem existir uma vez que é baseado na teoria de sacos de tuplos (duplicados não existiriam na teoria dos conjuntos)
 
@@ -125,7 +138,7 @@ Para cada uma das alíneas seguintes, escreva a query que permite obter:
 3. A lista de tuplos de combinação de valores nome, salário diferentes
 
 
-## 5. ORDER BY
+## 5. Funções de String
 O operador ORDER BY permite ordenar os resultados segundo um ou mais atributos.
 Por defeito os resultados são ordenados por ordem ascendente, mas podemos definir ordem descendente utilizando ```DESC```
 
@@ -151,17 +164,13 @@ Para cada uma das alíneas seguintes, escreva a query que permite obter:
 3. Obter a lista de empregados por ordem decrescente de salário
 4. Obter a lista de todos os empregados (nome próprio, apelido e salário) ordenado por salário ordem decrescente e nome próprio ordem ascendente
 
-## 6. Trabalho de Casa
-Para cada uma das alíneas seguintes, escreva a query que permite obter:
-1. Para cada empregado, o seu primeiro nome, o valor do seu salário atual e do salário após redução de 15% e salário com aumento de 25%
-2. Lista de todos os empregados (primeiro nome, último nome e comissão) que recebem comissão (comissão não é NULL)
-3. Lista de todos os valores de salários distintos
-4. Lista de todos os nomes de países ordenados por ordem alfabética
+## 6. Funções de Data
 
-  NOTA: submeta a sua resposta ao trabalho de casa no moodle, um exercício por linha, num ficheiro de texto com o nome TPC1_[N_ALUNO].sql (exemplo: TPC1_12345.sql para o aluno número 12345).
+## 7. Trabalho de Casa
+(será publicado após a aula)
 
 ## Bibliografia e Referências
-* [w3schools - SQL Operators](https://www.w3schools.com/sql/sql_operators.asp)
+* [w3schools - MySQL WHERE Clause]((https://www.w3schools.com/mysql/mysql_where.asp)
 * [w3schools - NULL values](https://www.w3schools.com/sql/sql_null_values.asp)
 * [geeksforgeeks - SQL Literals](https://www.geeksforgeeks.org/sql-literals/)
 * [w3schools - DISTINCT](https://www.w3schools.com/sql/sql_distinct.asp)
