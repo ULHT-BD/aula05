@@ -1,9 +1,6 @@
 # aula05
-Nesta aula continuamos a trabalhar a linguagem SQL. Vemos como o operador seleção permite selecionar e filtrar tuplos aplicando condições diferentes condições desde comparações simples e progressivamente mais complexas. Olhamos para vários exemplo de funções de linha, funções que podemos utilizar diretamente na query e que são aplicadas sobre os tuplos de acordo com os resultados pretendidos.
+Nesta aula continuamos a trabalhar a linguagem SQL. Vemos vários operadores de seleção que podem ser usados para impôr condições e filtrar tuplos através da cláusula WHERE. Olhamos para vários exemplo de funções de linha, funções disponibilizadas pelo MySQL que operam sobre dados numéricos, strings ou datas e que podemos utilizar diretamente na query sendo aplicadas sobre os tuplos de forma a obter diretamente os resultados pretendidos.
 Bom trabalho!
-
-Select: WHERE: comparação, BETWEEN, AND, OR, IN, LIKE, REGEXP, IS NULL
-Funções de linha: NUMBER, CHAR/STRING, DATE, conversão, CASE (DECODE)
 
 [0. Requisitos](#0-requisitos)
 
@@ -64,117 +61,100 @@ SELECT nome, idade, idade > 20 FROM alunos;
 ```
 
 ## 2. AND, OR e NOT
-Em SQL, o valor ```NULL``` é utilizado para representar um campo vazio, sem qualquer valor. Numa dada relação, se um atributo for opcional e se adicionamos um tuplo sem especificar um valor é atribuido o valor ```NULL```. ```NULL``` é diferente do valor ```0``` ou de uma string vazia ```''```
+Na cláusula ```WHERE``` podem ser utilizados os operadores ```AND```, ```OR``` e ```NOT``` para filtrar tuplos segundo várias condições.
 
-Em SQL existem funções próprias para testar e manipular o valor ```NULL```
-* ```IS NULL```, 1 se o valor do atributo for ```NULL``` ou 0 caso contrário
-``` sql
-SELECT nome FROM estudante WHERE idade IS NULL;
-```
-* ```IS NOT NULL```, 1 se o valor do atributo não for ```NULL``` ou 0 caso contrário
-``` sql
-SELECT nome FROM estudante WHERE idade IS NOT NULL;
-```
-* ```IFNULL()``` retorna valor alternativo caso seja ```NULL```
-``` sql
-SELECT IFNULL(idade, 20) FROM aluno;
-```
-* ```COALESCE()``` retorna o primeiro valor não ```NULL``` de uma lista
-``` sql
-SELECT COALESCE(NULL, NULL, 'Base de Dados', NULL, 'Universidade Lusófona');
-```
+
+Podemos usar os operadores:
+|Operador|Descrição|Exemplo|
+|--------|---------|-------|
+|AND|e - Todas as condições têm de ser verdadeiras|Quais os alunos que têm mas de 20 anos e menos de 25 anos: ```SELECT * FROM alunos WHERE idade > 20 AND idade < 25;```|
+|OR|ou - Apenas uma das condições tem de ser verdadeira|Quais os alunos que têm menos de 20 anos ou mais de 25 anos: ```SELECT * FROM alunos WHERE idade < 20 OR idade > 25;```|
+|NOT|não - Filtrar quando condição é falsa|Quais os alunos que não têm mais de 20 anos: ```SELECT * FROM alunos WHERE NOT idade > 20;```|
 
 ### Exercícios
 Para cada uma das alíneas seguintes, escreva a query que permite obter:
-1. Quais os departamentos que não possuem um Manager?
+1. Quais os empregados que cujo salário é superior a 5300 mas inferior a 5600?
 
-2. Quais os empregados que recebem uma percentagem de comissão (COMISSION_PCT)
+2. Quais os empregados que recebem menos de 5000 ou mais de 10000
 
-3. Lista de todos os empregados e respetivas comissões, mostrando ```0``` sempre que esta é ```NULL```
-
-4. Qual o primeiro valor não ```NULL``` da lista (NULL, 'Lisboa', 'Porto', NULL, 'Braga')
+3. Lista de empregados cujo departamento não é o 30 nem o 50 
 
 ## 3. IN, LIKE e REGEXP
-|```BETWEEN```|Entre dois valores|Quais os alunos que têm entre 20 e 25 anos (inclusivé): ```SELECT * FROM alunos WHERE idade BETWEEN 20 AND 25;```|
-Em SQL existem vários tipos de literais: string, numérico (exato e aproximado), data e hora, hexadecimal, binário ou boleano
-| Literal | Exemplo | Descrição |
-| ------- | ------- | --------- |
-| String | "Teresa", 'Lisboa'  | Sequências de caractéres delimitadas por aspas (```"```) ou plicas (```'```) |
-| Numerico (inteiro) | 1, 43, -210  | Um valor numérico inteiro exato |
-| Numerico (decimal) | 0.5, 8.04, 1000.1  | Um valor numérico exato contendo parte inteira e parte decimal |
-| Numerico (vírgula flutuante) | 2e-8, 1.34524e-24, 342.453 | Um valor numérico de virgula flutuante, i.e. sem número fixo de digitos à esquerda ou direita da vírgula |
-| Data e Hora | '1998-03-15', '19980315', '1998-03-15 18:54:21.5' | Várias formatos possíveis para representar data e hora |
-| Hexadecimal | x'123', X'123', 0x123 | Valores hexadecimais podem ser representados utilizando a notação ```x'valor'```, ```X'valor'``` ou ```0xvalor``` |
-| Binário | b'0011', B'0011', 0b0011 | Valores binários podem ser representados utilizando a notação ```b'valor'```, ```B'valor'``` ou ```bvalor``` |
-| Booleano | TRUE, FALSE | Os valores booleanos ```TRUE``` e ```FALSE``` são avaliados como ```1``` e ```0``` respetivamente |
+Os operadores ```IN```, ```LIKE``` e ```REGEXP``` permitem fazer comparações mais complexas, veja a seguinte tabela:
+|Operador|Descrição|Exemplo|
+|--------|---------|-------|
+|IN|Comparar com uma lista de valores (equivalente a comparações separadas por OR)|Quais os alunos cujo nome é Maria, Teresa ou Pedro: ```SELECT * FROM alunos WHERE nome IN ('Maria', 'Teresa', 'Pedro');```|
+|LIKE|Pesquisar um padrão numa coluna. Wilcards comuns ```%``` (representa zero ou múltiplos caracteres) e ```_``` (um único caracter)|Quais os alunos cujo nome começa por M e acaba em a (e.g. Maria, Marta, Mónica, etc): ```SELECT * FROM alunos WHERE nome LIKE 'M%a';```|
+|REGEXP|Pesquisar utilizando expressões regulares|Quais os alunos cujo nome começa por M e acaba em a (e.g. Maria, Marta, Mónica, etc): ```SELECT * FROM alunos WHERE nome REGEXP '^M.*a$';```|
 
 ### Exercícios
 Para cada uma das alíneas seguintes, escreva a query que permite obter:
-1. A constante 'Base de Dados'
-2. O valor 10 dividido por 3
-3. O hexadecimal de 'bd2022'
-4. O valor 0100 em binário
+1. A lista de empregados cujo primeiro nome é David, Peter ou John
+2. A lista de empregados cujo primeiro nome começa e acaba com a letra d
+3. A lista de regiões cujo nome contém três ocorrêncas da letra 'a' (possivel resolver com LIKE ou REGEXP)
+4. A lista de regiões cujo nome contém três ocorrêncas da letra 'a' mas nenhum 'l' (possivel resolver com LIKE ou REGEXP)
 
 ## 4. Funções Numéricas
-O operador DISTINCT permite obter apenas valores distintos/diferentes, i.e. permite remover duplicados.
-NOTA: relembre que SQL duplicados podem existir uma vez que é baseado na teoria de sacos de tuplos (duplicados não existiriam na teoria dos conjuntos)
+O MySQL disponibiliza um grande conjunto de funções que permitem operar sobre dados numéricos. Alguns exemplos são:
 
-A sintaxe é:
-``` sql
-SELECT DISTINCT atributo, ...
-FROM relacao;
-```
-Exemplo:
-* Quais as diferentes idades dos estudantes
-``` sql
-SELECT DISTINCT idade
-FROM estudante;
-```
+|Operador|Descrição|Exemplo|
+|--------|---------|-------|
+|ABS|Obter o valor absoluto|Qual o valor absoluto de -231.5: ```SELECT ABS(-231.5);```|
+|SQRT|Obter o valor da raíz quadrada|Qual a raiz quadrada de 9: ```SELECT SQRT(9);```|
+|POW|Calcular o valor da potência|Qual o valor de potência 2 de base 4: ```SELECT POW(4, 2);```|
+|RAND|Obter um valor aleatório (entre 0 e 1)|Obtenha um valor aleatório entr 0 e 10: ```SELECT RAND()*10;```|
+|ROUND|Obter um valor arredondado|Obtenha o valor de pi arredondado para 2 casas decimais: ```SELECT ROUND(PI(), 2);```|
 
 ### Exercícios
 Para cada uma das alíneas seguintes, escreva a query que permite obter:
-1. A lista de todos os nomes próprios diferentes de empregados
-2. A lista de todos os valores salariais diferentes
-3. A lista de tuplos de combinação de valores nome, salário diferentes
+1. A lista dos nomes de empregados e um número id aleatório
+2. A lista dos nomes de empregados e respetivo salário com bonificação de 6% arredondado com duas casas décimais
+3. Os empregados cujo nome é David, com um número id aleatório e salário com bonificação de 6% arredondado com duas casas décimais
 
 
 ## 5. Funções de String
-O operador ORDER BY permite ordenar os resultados segundo um ou mais atributos.
-Por defeito os resultados são ordenados por ordem ascendente, mas podemos definir ordem descendente utilizando ```DESC```
+O MySQL disponibiliza um grande conjunto de funções que permitem operar sobre strings. Alguns exemplos são:
 
-A sintaxe é:
-``` sql
-SELECT atributo, ...
-FROM relacao
-ORDER BY atributo;
-```
-
-Exemplo:
-* Obter nome de alunos ordenados por ordem decrescente de idade
-``` sql
-SELECT nome, idade
-FROM estudante
-ORDER BY idade DESC;
-```
+|Operador|Descrição|Exemplo|
+|--------|---------|-------|
+|LOWER ou LCASE|Converter todos os caracteres para minúsculas|Obter o nome de aluno em minúsculas: ```SELECT LOWER(nome) FROM alunos;```|
+|UPPER ou UCASE|Converter todos os caracteres para maiúsculas|Obter o nome de aluno em maiúsculas: ```SELECT UPPER(nome) FROM alunos;```|
+|CONCAT|Concatenar várias strings numa só|Construir nome completo a partir de nome e apelido: ```SELECT CONCAT(nome, ' ', apelido) FROM alunos;```|
+|CHAR_LENGTH|Obter o número de caracteres de uma string|Contar o número de letras de cada nome: ```SELECT CHAR_LENGTH(nome) FROM alunos;```|
+|STRCMP|Comparar duas strings (resultado -1, 0 ou 1) |Verificar se nome de aluno é 'Pedro': ```SELECT STRCMP(nome, 'Pedro') FROM alunos;```|
+|SUBSTR|Extrair uma substring de uma string|Obter as duas primeiras letras de cada nome: ```SELECT SUBSTR(nome, 1, 2) FROM alunos;```|
 
 ### Exercícios
 Para cada uma das alíneas seguintes, escreva a query que permite obter:
-1. Obter a lista de todos os nomes próprios ordenados por ordem alfabética
-2. Obter a lista de todos os nomes próprios diferentes ordenados por ordem alfabética
-3. Obter a lista de empregados por ordem decrescente de salário
-4. Obter a lista de todos os empregados (nome próprio, apelido e salário) ordenado por salário ordem decrescente e nome próprio ordem ascendente
+1. Obter a lista de todos os nomes próprios em minúsculas e apelidos em maiúsculas
+2. Obter a lista de todos os nomes completos concatenando primeiro nome e último nome, bem como um email no formato primeiro_nome.ultimo_nome@ulusofona.pt
+3. Obter a lista de nomes, apelidos e uma terceira coluna com as iniciais (e.g. Teresa, Carvalho, TC)
 
 ## 6. Funções de Data
+O MySQL disponibiliza um grande conjunto de funções que permitem operar sobre datas. Alguns exemplos são:
+|Operador|Descrição|Exemplo|
+|--------|---------|-------|
+|CURDATE e CURTIME|Obter a data ou hora atuais (do sistema)|Obter a data atual: ```SELECT CURDATE();```|
+|ADDDATE ou DATE_ADD|Adicionar um intervalo de tempo a uma data (DATE_SUB para subtrair)|Calcular a data que será após 45 dias: ```SELECT ADDDATE("2022-10-18", INTERVAL 45 DAY);```|
+|DATEDIFF|Calcular a diferença em dias entre duas datas|Calcular quantos dias passaram entre 24 e 1 de outubro: ```SELECT DATEDIFF("2022-10-24", "2022-10-01");```|
+|DATE_FORMAT|Permite formatar datas de acordo com pretendido|Obter data no formato dia, mês por extenso ano 4 digitos: ```SELECT DATE_FORMAT("2022-10-18", "%d %M %Y");```|
+|DAY|Extrair dia de uma data (outras possibilidades MONTH, YEAR, HOUR, WEEK, etc)|Obter o dia da data: ```SELECT DAY("2022-10-18");```|
+
+### Exercícios
+Para cada uma das alíneas seguintes, escreva a query que permite obter:
+1. Duas colunas com qual a data atual e qual a hora atual. (experimente tambéma função NOW)
+2. A lista de todos os nomes de empregados e ano de data de contratação
+3. O número de dias passados desde que o empregado foi contratado até hoje
 
 ## 7. Trabalho de Casa
 (será publicado após a aula)
 
 ## Bibliografia e Referências
 * [w3schools - MySQL WHERE Clause]((https://www.w3schools.com/mysql/mysql_where.asp)
-* [w3schools - NULL values](https://www.w3schools.com/sql/sql_null_values.asp)
-* [geeksforgeeks - SQL Literals](https://www.geeksforgeeks.org/sql-literals/)
-* [w3schools - DISTINCT](https://www.w3schools.com/sql/sql_distinct.asp)
-* [w3schools - ORDER BY](https://www.w3schools.com/sql/sql_orderby.asp)
+* [w3schools - MySQL IN Operator](https://www.w3schools.com/mysql/mysql_in.asp)
+* [w3schools - MySQL LIKE Operator](https://www.w3schools.com/mysql/mysql_like.asp)
+* [geeksforgeeks - Regular Expressions REGEXP](https://www.geeksforgeeks.org/mysql-regular-expressions-regexp/)
+* [w3schools - MySQL Functions](https://www.w3schools.com/mysql/mysql_ref_functions.asp)
 
 ## Outros
 Para dúvidas e discussões pode juntar-se ao grupo slack da turma através do [link](https://join.slack.com/t/ulht-bd/shared_invite/zt-1h783xcc2-eRQlIYSqFkDeOAqGC045Rw)
