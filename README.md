@@ -150,7 +150,7 @@ Para cada uma das alíneas seguintes, escreva a query que permite obter:
 (será publicado após a aula)
 
 ## Bibliografia e Referências
-* [w3schools - MySQL WHERE Clause]((https://www.w3schools.com/mysql/mysql_where.asp)
+* [w3schools - MySQL WHERE Clause](https://www.w3schools.com/mysql/mysql_where.asp)
 * [w3schools - MySQL IN Operator](https://www.w3schools.com/mysql/mysql_in.asp)
 * [w3schools - MySQL LIKE Operator](https://www.w3schools.com/mysql/mysql_like.asp)
 * [geeksforgeeks - Regular Expressions REGEXP](https://www.geeksforgeeks.org/mysql-regular-expressions-regexp/)
