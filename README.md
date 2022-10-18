@@ -92,7 +92,7 @@ Para cada uma das alíneas seguintes, escreva a query que permite obter:
 1. A lista de empregados cujo primeiro nome é David, Peter ou John
 2. A lista de empregados cujo primeiro nome começa e acaba com a letra d
 3. A lista de regiões cujo nome contém três ocorrêncas da letra 'a' (possivel resolver com LIKE ou REGEXP)
-4. A lista de regiões cujo nome contém três ocorrêncas da letra 'a' mas nenhum 'l' (possivel resolver com LIKE ou REGEXP)
+4. A lista de países cujo nome contém três ocorrêncas da letra 'a' mas nenhum 'l' (possivel resolver com LIKE ou REGEXP)
 
 ## 4. Funções Numéricas
 O MySQL disponibiliza um grande conjunto de funções que permitem operar sobre dados numéricos. Alguns exemplos são:
