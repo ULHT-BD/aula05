@@ -73,7 +73,7 @@ Podemos usar os operadores:
 
 ### Exercícios
 Para cada uma das alíneas seguintes, escreva a query que permite obter:
-1. Quais os empregados que cujo salário é superior a 5300 mas inferior a 5600?
+1. Quais os empregados que cujo salário é superior a 3500 mas inferior a 5600?
 
 2. Quais os empregados que recebem menos de 5000 ou mais de 10000
 
