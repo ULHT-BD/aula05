@@ -148,27 +148,16 @@ Para cada uma das alíneas seguintes, escreva a query que permite obter:
 3. O número de dias passados desde que o empregado foi contratado até hoje
 
 ## 7. Trabalho de Casa
-(será publicado após a aula)
-<!--
 Para cada uma das alíneas seguintes, escreva a query que permite obter:
-1. Obter nome próprio, salário e data de contratação de todos os empregados cujo salário é entre 4000 e 8300.
-Em vez de utilizar o operador BETWEEN
-``` sql
-SELECT * FROM estudante WHERE idade BETWEEN 20 AND 25;
-```
 
-2. AND, OR e NOT
+1. Qual o nome próprio, salário e data de contratação de todos os empregados cujo salário é entre 4000 e 8300 e contratados após a data '2007-01-01'. Ordene os resultados por data de contratação.
 
-3. IN, LIKE e REGEXP
+3. Qual o nome completo dos empregado obtido pela combinação do primeiro e último nome (exemplo primeiro='John', último='Smith', completo='John Smith'), salário atual e salário após um aumento aletório entre 5 e 7% arredondado a duas casas decimais.
 
-4. Funções Numéricas
+4. Qual o endereço de email (formado por nome_proprio.apelido@ulusofona.pt) dos empregados cujo nome próprio contém o caracter 'a' e o apelido começa por 'b' ou 'g', bem como a data em que o empregado celebrou 10 anos desde a sua data de contratação. Ordene os resultados pelo nome próprio do empregado.
 
-5. Funções de String
+NOTA: submeta a sua resposta ao trabalho de casa no moodle, um exercício por linha, num ficheiro de texto com o nome TPC_a05_[N_ALUNO].sql (exemplo: TPC_a05_12345.sql para o aluno número 12345).
 
-6. Funções de Data
-
-NOTA: submeta a sua resposta ao trabalho de casa no moodle, um exercício por linha, num ficheiro de texto com o nome TPC2_[N_ALUNO].sql (exemplo: TPC2_12345.sql para o aluno número 12345).
--->
 ## Bibliografia e Referências
 * [w3schools - MySQL WHERE Clause](https://www.w3schools.com/mysql/mysql_where.asp)
 * [w3schools - MySQL IN Operator](https://www.w3schools.com/mysql/mysql_in.asp)
