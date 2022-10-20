@@ -156,6 +156,10 @@ Para cada uma das alíneas seguintes, escreva a query que permite obter:
 
 4. Qual o endereço de email (formado por nome_proprio.apelido@ulusofona.pt) dos empregados cujo nome próprio contém o caracter 'a' e o apelido começa por 'b' ou 'g', bem como a data em que o empregado celebrou 10 anos desde a sua data de contratação. Ordene os resultados pelo nome próprio do empregado.
 
+Bom trabalho!
+
+SUGESTÃO: se o problema parecer difícil ou estiver com dificuldades em obter o resultado final correto, tente subdividir o problema em partes obtendo isoladamente cada uma das condições pedidas.
+
 NOTA: submeta a sua resposta ao trabalho de casa no moodle, um exercício por linha, num ficheiro de texto com o nome TPC_a05_[N_ALUNO].sql (exemplo: TPC_a05_12345.sql para o aluno número 12345).
 
 ## Bibliografia e Referências
